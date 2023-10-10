@@ -4,6 +4,8 @@ BaseModel Module
 """
 import uuid
 from datetime import datetime, date, time
+from models.__init__ import storage
+from models.engine.file_storage import FileStorage
 
 
 class BaseModel:
@@ -25,6 +27,8 @@ class BaseModel:
                 setattr(self, k, v)
         self.id = str(uuid.uuid4())
         self.created_at = BaseModel.now
+        if __class__.__name__ + '.' + str(self.id) not in FileStorage.objects.keys():
+            storage.new(self)
 
     def __str__(self):
         """
@@ -38,6 +42,7 @@ class BaseModel:
         the current datetime
         """
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         """
