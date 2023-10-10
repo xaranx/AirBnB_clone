@@ -27,8 +27,9 @@ class BaseModel:
                 setattr(self, k, v)
         self.id = str(uuid.uuid4())
         self.created_at = BaseModel.now
-        if __class__.__name__ + '.' + str(self.id) not in FileStorage.objects.keys():
-            storage.new(self)
+        name = __class__.__name__ + '.' + str(self.id)
+        # if name not in FileStorage.objects.keys():
+        storage.new(self)
 
     def __str__(self):
         """
@@ -51,7 +52,6 @@ class BaseModel:
         """
         cr, up = 'created_at', 'updated_at'
         dic = {k: (v.isoformat() if k == cr or k == up else v)
-               for k, v in self.__dict__.items()
-               }
+               for k, v in self.__dict__.items()}
         dic['__class__'] = __class__.__name__
         return dic

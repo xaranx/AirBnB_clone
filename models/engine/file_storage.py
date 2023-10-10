@@ -11,40 +11,45 @@ class FileStorage:
     Serializes and Deserializes JSON files
     """
     __file_path = 'file.json'
-    objects = {}
+    __objects = {}
 
-    def __init__(self):
-        """
-        Instantiation of class FileStorage
-        """
-        pass
+    # def __init__(self):
+    #     """
+    #     Instantiation of class FileStorage
+    #     """
+    #     pass
 
     def all(self):
         """
         Returns the dictionary __objects
         """
-        return FileStorage.objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """
         Sets in __objects the obj with key obj class name.id
         """
-        name = obj.__class__.__name__
-        FileStorage.objects[name + '.' + str(obj.id)] = obj.__dict__
+        name = obj.__class__.__name__ + '.' + str(obj.id)
+        FileStorage.__objects[name] = obj
 
     def save(self):
         """
         Serializes __objects to the JSON file
         """
-        with open(FileStorage.__file_path, 'w') as f:
-            json.dump(FileStorage.objects, f)
+        dic = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
+        with open(FileStorage.__file_path, 'w', encoding='utf-8') as f:
+            json.dump(dic, f)
 
     def reload(self):
         """
         Deserializes the JSON file to __objects
         """
         if os.path.exists(FileStorage.__file_path):
-            with open(FileStorage.__file_path, 'r') as f:
-                FileStorage.objects = json.load(f)
+            with open(FileStorage.__file_path, 'r', encoding='utf-8') as f:
+                for key, value in (json.load(f)).items():
+                    value = eval(value["__class__"])(**value)
+                    # value = BaseModel(**value)
+                    FileStorage.__objects[key] = value
+                # FileStorage.objects = json.load(f)
         else:
-            pass
+            return
