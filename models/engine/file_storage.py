@@ -13,11 +13,11 @@ class FileStorage:
     __file_path = 'file.json'
     __objects = {}
 
-    # def __init__(self):
-    #     """
-    #     Instantiation of class FileStorage
-    #     """
-    #     pass
+    def __init__(self):
+        """
+        Instantiation of class FileStorage
+        """
+        pass
 
     def all(self):
         """
@@ -37,6 +37,7 @@ class FileStorage:
         Serializes __objects to the JSON file
         """
         dic = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
+
         with open(FileStorage.__file_path, 'w', encoding='utf-8') as f:
             json.dump(dic, f)
 
@@ -47,6 +48,7 @@ class FileStorage:
         if os.path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, 'r', encoding='utf-8') as f:
                 for key, value in (json.load(f)).items():
+                    from models.base_model import BaseModel
                     value = eval(value["__class__"])(**value)
                     # value = BaseModel(**value)
                     FileStorage.__objects[key] = value
