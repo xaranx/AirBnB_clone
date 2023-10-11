@@ -16,20 +16,20 @@ class BaseModel:
         """
         Instantiation of the class
         """
+        time_format = "%Y-%m-%dT%H:%M:%S.%f"
         if len(kwargs) > 0:
             for k, v in kwargs.items():
                 if k == '__class__':
                     continue
 
                 elif k == 'created_at' or k == 'updated_at':
-                    setattr(self, k, datetime.fromisoformat(v))
+                    setattr(self, k, datetime.strptime(v, time_format))
 
                 setattr(self, k, v)
         
         self.id = str(uuid.uuid4())
-        self.created_at = BaseModel.now
-        name = __class__.__name__ + '.' + str(self.id)
-        # if name not in FileStorage.objects.keys():
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
         from models.__init__ import storage
         storage.new(self)
 
@@ -37,7 +37,7 @@ class BaseModel:
         """
         Returns the instance representation
         """
-        return f"[{__class__.__name__}] ({self.id}) {self.__dict__}"
+        return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
         """
@@ -53,11 +53,10 @@ class BaseModel:
         Returns a dictionary containing all keys/values of __dict__
         of the instance
         """
-        cr, up = 'created_at', 'updated_at'
-        
-        dic = {k: (v.isoformat() if k == cr or k == up else v)
-               for k, v in self.__dict__.items()}
-        
+        dic = self.__dict__.copy()
+
+        dic["created_at"] = self.created_at.isoformat()
+        dic["updated_at"] = self.updated_at.isoformat()
         dic['__class__'] = __class__.__name__
 
         return dic
