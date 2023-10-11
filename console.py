@@ -7,6 +7,7 @@ from models.engine.file_storage import FileStorage
 from models.__init__ import storage
 from models.base_model import BaseModel
 import sys
+import json
 
 
 class HBNBCommand(cmd.Cmd):
@@ -56,10 +57,11 @@ class HBNBCommand(cmd.Cmd):
 
             else:
                 look_up = '{}.{}'.format(args[0], args[1])
-                with open(FileStorage.__file_path, 'r') as f:
-                    if look_up in f.keys():
-                        data = json.load(f[look_up])
-                print('[{}] ({}) {}'.format(args[0], args[1], data))
+                with open('file.json', 'r') as f:
+                    data = json.load(f)
+                    if look_up in data.keys():
+                        obj_dict = data[look_up]
+                print('[{}] ({}) {}'.format(args[0], args[1], obj_dict))
 
         elif len(args) == 1:
             print('** instance id missing **')
@@ -83,10 +85,14 @@ class HBNBCommand(cmd.Cmd):
 
             else:
                 look_up = '{}.{}'.format(args[0], args[1])
-                with open(FileStorage.__file_path, 'r') as f:
-                    if look_up in f.keys():
-                        del f[look_up]
-                        storage.save()
+                with open('file.json', 'r') as f:
+                    data = json.load(f)
+                    if look_up in data.keys():
+                        for names in globals():
+                            name = globals()[names]
+                            if id(name) == args[1]:
+                                del globals()[name]
+                                storage.save()
 
         elif len(args) == 1:
             print('** instance id missing **')

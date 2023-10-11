@@ -10,11 +10,7 @@ class FileStorage:
     """
     Serializes and Deserializes JSON files
     """
-<<<<<<< HEAD
-    __file_path = "file.json"
-=======
     __file_path = 'file.json'
->>>>>>> fb94b3a54c8c1c75695f4fab53d3602e12fe687c
     __objects = {}
 
     def __init__(self):
