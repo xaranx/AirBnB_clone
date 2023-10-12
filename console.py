@@ -51,24 +51,30 @@ class HBNBCommand(cmd.Cmd):
         if len(args) >= 2:
             if args[0] != 'BaseModel':
                 print('** class name doesn\'t exist **')
+                return
 
             else:
                 look_up = '{}.{}'.format(args[0], args[1])
                 available_instances = storage.all()
                 if look_up in available_instances.keys():
                     print(available_instances[look_up])
+                    return
 
                 else:
                     print("** no instance found **")
+                    return
 
         elif len(args) == 1:
             if not args[0][0].isupper():
                 print('** class name missing **')
+                return
 
             else:
                 print("** instance id missing **")
+                return
         else:
             print('** class name missing **')
+            return
 
     def do_destroy(self, line):
         """
@@ -80,40 +86,93 @@ class HBNBCommand(cmd.Cmd):
         if len(args) >= 2:
             if args[0] != 'BaseModel':
                 print('** class name doesn\'t exist **')
+                return
 
             else:
                 look_up = '{}.{}'.format(args[0], args[1])
                 available_instances = storage.all()
+                
                 if look_up in available_instances:
                     del available_instances[look_up]
                     storage.save()
-                    for names in globals():
-                        name = globals()[names]
-                        if id(name) == args[1]:
-                            del globals()[name]
+                
                 else:
                     print("** no instance found **")
+                    return
 
         elif len(args) == 1:
             if not args[0][0].isupper():
                 print('** class name missing **')
+                return
 
             else:
                 print("** instance id missing **")
+                return
         else:
             print('** class name missing **')
+            return
 
     def do_all(self, line):
         """
         Prints all string representation of all instances based or
         not on the class name.
         """
+        args = line.split()
+
+        available_instances = storage.all()
+        list_of_instances = []
+        if len(args) == 0:
+            for instance in available_instances:
+                list_of_instances.append(str(available_instances[instance]))
+            print(list_of_instances)
+
+        else:
+            if args[0] == 'BaseModel':
+                for instance in available_instances:
+                    if args[0] in instance:
+                        list_of_instances.append(str(available_instances[instance]))
+                print(list_of_instances)
+            else:
+                print('** class doesn\'t exist **')
+                return
 
     def do_update(self, line):
         """
         Updates an instance based on the class name and id by adding
         or updating attribute (save the change into the JSON file).
         """
+        args = line.split()
+
+        available_instances = storage.all()
+        if len(args) >= 4:
+            if args[0] != 'BaseModel':
+                print("** class doesn't exist **")
+                return
+
+            key = '{}.{}'.format(args[0], args[1])
+            if key in available_instances.keys():
+                setattr(available_instances[key], args[2], args[3])
+                storage.save()
+
+            else:
+                print("** no instance found **")
+                return
+
+        elif len(args) == 3:
+            print("** value missing **")
+            return
+
+        elif len(args) == 2:
+            print("** attribute name is missing **")
+            return
+
+        elif len(args) == 1:
+            print("** instance id missing **")
+            return
+
+        else:
+            print("** class name missing **")
+            return
 
     def do_EOF(self, line):
         """
