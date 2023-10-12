@@ -49,25 +49,26 @@ class HBNBCommand(cmd.Cmd):
         args = line.split()
 
         if len(args) >= 2:
-            if not args[0][0].isupper():
-                print('** class name is missing **')
-            
-            elif args[0] != 'BaseModel':
-                print('** class doesn\'t exist **')
+            if args[0] != 'BaseModel':
+                print('** class name doesn\'t exist **')
 
             else:
                 look_up = '{}.{}'.format(args[0], args[1])
-                with open('file.json', 'r') as f:
-                    data = json.load(f)
-                    if look_up in data.keys():
-                        obj_dict = data[look_up]
-                print('[{}] ({}) {}'.format(args[0], args[1], obj_dict))
+                available_instances = storage.all()
+                if look_up in available_instances.keys():
+                    print(available_instances[look_up])
+
+                else:
+                    print("** no instance found **")
 
         elif len(args) == 1:
-            print('** instance id missing **')
+            if not args[0][0].isupper():
+                print('** class name missing **')
 
+            else:
+                print("** instance id missing **")
         else:
-            print('** class name is missing **')
+            print('** class name missing **')
 
     def do_destroy(self, line):
         """
@@ -77,29 +78,30 @@ class HBNBCommand(cmd.Cmd):
         args = line.split()
 
         if len(args) >= 2:
-            if not args[0][0].isupper():
-                print('** class name missing **')
-            
-            elif args[0] != 'BaseModel':
-                print('** class doesn\'t exist **')
+            if args[0] != 'BaseModel':
+                print('** class name doesn\'t exist **')
 
             else:
                 look_up = '{}.{}'.format(args[0], args[1])
-                with open('file.json', 'r') as f:
-                    data = json.load(f)
-                    if look_up in data.keys():
-                        for names in globals():
-                            name = globals()[names]
-                            if id(name) == args[1]:
-                                del globals()[name]
-                                storage.save()
+                available_instances = storage.all()
+                if look_up in available_instances:
+                    del available_instances[look_up]
+                    storage.save()
+                    for names in globals():
+                        name = globals()[names]
+                        if id(name) == args[1]:
+                            del globals()[name]
+                else:
+                    print("** no instance found **")
 
         elif len(args) == 1:
-            print('** instance id missing **')
+            if not args[0][0].isupper():
+                print('** class name missing **')
 
+            else:
+                print("** instance id missing **")
         else:
             print('** class name missing **')
-
 
     def do_all(self, line):
         """
