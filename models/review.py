@@ -1,13 +1,15 @@
 #!/usr/bin/python3
-"""Defines the State class"""
 from models.base_model import BaseModel
 
 
-class State(BaseModel):
+class Review(BaseModel):
     """
-    name (str): the name of the state
+    Review class inherits from BaseModel
     """
-    name = ""
+    place_id = ""
+    user_id = ""
+    text = ""
+
     def __init__(self, *args, **kwargs):
         """
         Instantiation of the class

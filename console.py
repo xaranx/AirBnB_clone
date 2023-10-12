@@ -6,6 +6,12 @@ import cmd
 from models.engine.file_storage import FileStorage
 from models.__init__ import storage
 from models.base_model import BaseModel
+from models.user import User
+from models.city import City
+from models.state import State
+from models.place import Place
+from models.amenity import Amenity
+from models.review import Review
 import sys
 import json
 
@@ -15,6 +21,16 @@ class HBNBCommand(cmd.Cmd):
     HBNBCommand class
     """
     prompt = '(hbnb) '
+
+    classes = [
+            'BaseModel',
+            'User',
+            'State',
+            'City',
+            'Amenity',
+            'Place',
+            'Review'
+            ]
 
     def onecmd(self, line):
         """
@@ -33,10 +49,16 @@ class HBNBCommand(cmd.Cmd):
         if len(args) < 1:
             print("** class name missing **")
 
-        elif args[0] in globals():
-            new_instance = globals()[args[0]]()
-            new_instance.save()
-            print(f'{new_instance.__dict__["id"]}')
+        elif len(args) >= 1:
+            for class_ in HBNBCommand.classes:
+                if args[0] == class_:
+                    new_instance = globals()[class_]()
+                    new_instance.save()
+                    print(f'{new_instance.id}')
+        # elif args[0] in HBNBCommand.classes:
+        #     new_instance = globals()[args[0]]()
+        #     new_instance.save()
+        #     print(f'{new_instance.__dict__["id"]}')
 
         else:
             print("** class doesn't exist **")
@@ -49,7 +71,7 @@ class HBNBCommand(cmd.Cmd):
         args = line.split()
 
         if len(args) >= 2:
-            if args[0] != 'BaseModel':
+            if args[0] not in HBNBCommand.classes:
                 print('** class name doesn\'t exist **')
                 return
 
@@ -84,7 +106,7 @@ class HBNBCommand(cmd.Cmd):
         args = line.split()
 
         if len(args) >= 2:
-            if args[0] != 'BaseModel':
+            if args[0] not in HBNBCommand.classes:
                 print('** class name doesn\'t exist **')
                 return
 
@@ -127,7 +149,7 @@ class HBNBCommand(cmd.Cmd):
             print(list_of_instances)
 
         else:
-            if args[0] == 'BaseModel':
+            if args[0] in HBNBCommand.classes:
                 for instance in available_instances:
                     if args[0] in instance:
                         list_of_instances.append(str(available_instances[instance]))
@@ -145,7 +167,7 @@ class HBNBCommand(cmd.Cmd):
 
         available_instances = storage.all()
         if len(args) >= 4:
-            if args[0] != 'BaseModel':
+            if args[0] not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
 

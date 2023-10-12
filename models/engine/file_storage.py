@@ -49,6 +49,11 @@ class FileStorage:
             with open(self.__file_path, 'r', encoding='utf-8') as f:
                 for k, v in (json.load(f)).items():
                     from models.base_model import BaseModel
+                    from models.user import User
+                    from models.state import State
+                    from models.city import City
+                    from models.amenity import Amenity
+                    from models.review import Review
                     value = eval(v["__class__"])(**v)
                     # value = BaseModel(**value)
                     self.__objects[k] = value
