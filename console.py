@@ -35,10 +35,13 @@ class HBNBCommand(cmd.Cmd):
     commands = [
             'create()',
             'all()',
-            'show()',
-            'destroy()',
-            'update()',
             'count()'
+            ]
+
+    commands_with_id = [
+            'show',
+            'destroy',
+            'update'
             ]
 
     def onecmd(self, line):
@@ -204,6 +207,8 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, line):
         """
         Countes how many instances of a class
+        The same method used for do_all except return values
+        Returns the length 
         """
         args = line.split()
 
@@ -234,9 +239,19 @@ class HBNBCommand(cmd.Cmd):
         if len(args) >= 2:
            for class_ in HBNBCommand.classes:
                if args[0] == class_:
-                   for command in HBNBCommand.commands:
-                       if args[1] == command:
-                           return f"{args[1][:-2]} {args[0]}"
+                   if args[1] in HBNBCommand.commands:
+                       for command in HBNBCommand.commands:
+                           if args[1] == command:
+                               return f"{args[1][:-2]} {args[0]}"
+                   else:
+                       cmd = args[1].split('(')
+                       if cmd[0] == 'update':
+                           params = cmd[1].split(',')
+                           return f"{cmd[0]} {args[0]} {params[0][1:-1]} {params[1][1:-1]} {params[2]}"
+                       if cmd[0] in HBNBCommand.commands_with_id:
+                           for command in HBNBCommand.commands_with_id:
+                               if cmd[0] == command:
+                                   return f"{cmd[0]} {args[0]} {cmd[1][1:-2]}"
         return line
 
     def do_EOF(self, line):

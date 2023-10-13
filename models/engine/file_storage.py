@@ -57,6 +57,5 @@ class FileStorage:
                     value = eval(v["__class__"])(**v)
                     # value = BaseModel(**value)
                     self.__objects[k] = value
-                # FileStorage.objects = json.load(f)
         else:
             return
