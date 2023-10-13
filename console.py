@@ -32,6 +32,15 @@ class HBNBCommand(cmd.Cmd):
             'Review'
             ]
 
+    commands = [
+            'create()',
+            'all()',
+            'show()',
+            'destroy()',
+            'update()',
+            'count()'
+            ]
+
     def onecmd(self, line):
         """
         Ignores empty lines
@@ -55,10 +64,6 @@ class HBNBCommand(cmd.Cmd):
                     new_instance = globals()[class_]()
                     new_instance.save()
                     print(f'{new_instance.id}')
-        # elif args[0] in HBNBCommand.classes:
-        #     new_instance = globals()[args[0]]()
-        #     new_instance.save()
-        #     print(f'{new_instance.__dict__["id"]}')
 
         else:
             print("** class doesn't exist **")
@@ -113,11 +118,11 @@ class HBNBCommand(cmd.Cmd):
             else:
                 look_up = '{}.{}'.format(args[0], args[1])
                 available_instances = storage.all()
-                
+
                 if look_up in available_instances:
                     del available_instances[look_up]
                     storage.save()
-                
+
                 else:
                     print("** no instance found **")
                     return
@@ -195,6 +200,44 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** class name missing **")
             return
+
+    def do_count(self, line):
+        """
+        Countes how many instances of a class
+        """
+        args = line.split()
+
+        available_instances = storage.all()
+        list_of_instances = []
+        if len(args) == 0:
+            for instance in available_instances:
+                list_of_instances.append(str(available_instances[instance]))
+            print(len(list_of_instances))
+
+        else:
+            if args[0] in HBNBCommand.classes:
+                for instance in available_instances:
+                    if args[0] in instance:
+                        list_of_instances.append(str(available_instances[instance]))
+                print(len(list_of_instances))
+            else:
+                print('** class doesn\'t exist **')
+                return
+
+
+    def precmd(self, line):
+        """
+        Accessing the command before onecmd
+        """
+        args = line.split('.')
+
+        if len(args) >= 2:
+           for class_ in HBNBCommand.classes:
+               if args[0] == class_:
+                   for command in HBNBCommand.commands:
+                       if args[1] == command:
+                           return f"{args[1][:-2]} {args[0]}"
+        return line
 
     def do_EOF(self, line):
         """
