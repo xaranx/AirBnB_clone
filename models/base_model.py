@@ -31,8 +31,9 @@ class BaseModel:
                 else:
                     setattr(self, k, v)
 
-        from models.__init__ import storage
-        storage.new(self)
+        else:
+            from models.__init__ import storage
+            storage.new(self)
 
     def __str__(self):
         """

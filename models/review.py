@@ -10,9 +10,9 @@ class Review(BaseModel):
     user_id = ""
     text = ""
 
-    def __init__(self, *args, **kwargs):
-        """
-        Instantiation of the class
-        """
-        super().__init__(*args, **kwargs)
-        self.save()
+#     def __init__(self, *args, **kwargs):
+#         """
+#         Instantiation of the class
+#         """
+#         super().__init__(*args, **kwargs)
+#         self.save()
