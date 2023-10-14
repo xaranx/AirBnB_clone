@@ -4,6 +4,7 @@
 from models.base_model import BaseModel
 # from datetime import datetime, date, time
 
+
 class User(BaseModel):
     """
     User class inherits from BaseModel
