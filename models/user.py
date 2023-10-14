@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-""" defines the User class"""
+"""
+defines the User class
+"""
 # import uuid
 from models.base_model import BaseModel
 # from datetime import datetime, date, time

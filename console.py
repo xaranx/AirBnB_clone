@@ -171,6 +171,7 @@ class HBNBCommand(cmd.Cmd):
         or updating attribute (save the change into the JSON file).
         """
         args = line.split()
+        args = list(map(lambda x: x.strip('"'), args))
 
         available_instances = storage.all()
         if len(args) >= 4:
