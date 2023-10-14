@@ -40,8 +40,7 @@ class HBNBCommand(cmd.Cmd):
 
     commands_with_id = [
             'show',
-            'destroy',
-            'update'
+            'destroy'
             ]
 
     def onecmd(self, line):
@@ -150,18 +149,18 @@ class HBNBCommand(cmd.Cmd):
         args = line.split()
 
         available_instances = storage.all()
-        list_of_instances = []
+        instances = []
         if len(args) == 0:
             for instance in available_instances:
-                list_of_instances.append(str(available_instances[instance]))
-            print(list_of_instances)
+                instances.append(str(available_instances[instance]))
+            print(instances)
 
         else:
             if args[0] in HBNBCommand.classes:
                 for instance in available_instances:
                     if args[0] in instance:
-                        list_of_instances.append(str(available_instances[instance]))
-                print(list_of_instances)
+                        instances.append(str(available_instances[instance]))
+                print(instances)
             else:
                 print('** class doesn\'t exist **')
                 return
@@ -208,27 +207,26 @@ class HBNBCommand(cmd.Cmd):
         """
         Countes how many instances of a class
         The same method used for do_all except return values
-        Returns the length 
+        Returns the length
         """
         args = line.split()
 
         available_instances = storage.all()
-        list_of_instances = []
+        instances = []
         if len(args) == 0:
             for instance in available_instances:
-                list_of_instances.append(str(available_instances[instance]))
-            print(len(list_of_instances))
+                instances.append(str(available_instances[instance]))
+            print(len(instances))
 
         else:
             if args[0] in HBNBCommand.classes:
                 for instance in available_instances:
                     if args[0] in instance:
-                        list_of_instances.append(str(available_instances[instance]))
-                print(len(list_of_instances))
+                        instances.append(str(available_instances[instance]))
+                print(len(instances))
             else:
                 print('** class doesn\'t exist **')
                 return
-
 
     def precmd(self, line):
         """
@@ -237,21 +235,23 @@ class HBNBCommand(cmd.Cmd):
         args = line.split('.')
 
         if len(args) >= 2:
-           for class_ in HBNBCommand.classes:
-               if args[0] == class_:
-                   if args[1] in HBNBCommand.commands:
-                       for command in HBNBCommand.commands:
-                           if args[1] == command:
-                               return f"{args[1][:-2]} {args[0]}"
-                   else:
-                       cmd = args[1].split('(')
-                       if cmd[0] == 'update':
-                           params = cmd[1].split(',')
-                           return f"{cmd[0]} {args[0]} {params[0][1:-1]} {params[1][1:-1]} {params[2]}"
-                       if cmd[0] in HBNBCommand.commands_with_id:
-                           for command in HBNBCommand.commands_with_id:
-                               if cmd[0] == command:
-                                   return f"{cmd[0]} {args[0]} {cmd[1][1:-2]}"
+            for class_ in HBNBCommand.classes:
+                if args[0] == class_:
+                    if args[1] in HBNBCommand.commands:
+                        for command in HBNBCommand.commands:
+                            if args[1] == command:
+                                return f"{args[1][:-2]} {args[0]}"
+                else:
+                    cmd = args[1].split('(')
+                    if cmd[0] == 'update':
+                        params = cmd[1].split(', ')
+                        prms = list(map(lambda x: x.strip('")'), params))
+                        return "{} {} {} {} {}"\
+                            .format(cmd[0], args[0], prms[0], prms[1], prms[2])
+                    elif cmd[0] in HBNBCommand.commands_with_id:
+                        for command in HBNBCommand.commands_with_id:
+                            if cmd[0] == command:
+                                return f"{cmd[0]} {args[0]} {cmd[1][1:-2]}"
         return line
 
     def do_EOF(self, line):
@@ -265,6 +265,7 @@ class HBNBCommand(cmd.Cmd):
         Quit command to exit the program
         """
         return True
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
