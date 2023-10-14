@@ -60,15 +60,16 @@ class HBNBCommand(cmd.Cmd):
         if len(args) < 1:
             print("** class name missing **")
 
-        elif len(args) >= 1:
-            for class_ in HBNBCommand.classes:
-                if args[0] == class_:
-                    new_instance = globals()[class_]()
-                    new_instance.save()
-                    print(f'{new_instance.id}')
-
         else:
-            print("** class doesn't exist **")
+            if args[0] in HBNBCommand.classes:
+                for class_ in HBNBCommand.classes:
+                    if args[0] == class_:
+                        new_instance = globals()[class_]()
+                        new_instance.save()
+                        print(f'{new_instance.id}')
+
+            else:
+                print("** class doesn't exist **")
 
     def do_show(self, line):
         """
@@ -79,7 +80,7 @@ class HBNBCommand(cmd.Cmd):
 
         if len(args) >= 2:
             if args[0] not in HBNBCommand.classes:
-                print('** class name doesn\'t exist **')
+                print('** class doesn\'t exist **')
                 return
 
             else:
@@ -94,8 +95,8 @@ class HBNBCommand(cmd.Cmd):
                     return
 
         elif len(args) == 1:
-            if not args[0][0].isupper():
-                print('** class name missing **')
+            if args[0] not in HBNBCommand.classes:
+                print('** class doesn\'t exist **')
                 return
 
             else:
@@ -114,7 +115,7 @@ class HBNBCommand(cmd.Cmd):
 
         if len(args) >= 2:
             if args[0] not in HBNBCommand.classes:
-                print('** class name doesn\'t exist **')
+                print('** class doesn\'t exist **')
                 return
 
             else:
@@ -130,8 +131,8 @@ class HBNBCommand(cmd.Cmd):
                     return
 
         elif len(args) == 1:
-            if not args[0][0].isupper():
-                print('** class name missing **')
+            if args[0] not in HBNBCommand.classes:
+                print('** class doesn\'t exist **')
                 return
 
             else:
