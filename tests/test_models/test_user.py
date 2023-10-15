@@ -80,12 +80,20 @@ class TestUser(unittest.TestCase):
         Testing user.to_dict() method
         """
         obj = User()
+        obj.email = "airBnB@mail.com"
+        obj.first_name = "Betty"
+        obj.last_name = "Holberton"
+        obj.password = "root"
 
         self.assertFalse(obj.__dict__ == obj.to_dict())
         self.assertTrue(type(obj.to_dict()), dict)
         self.assertTrue(type(obj.to_dict()['created_at']), datetime)
         self.assertTrue(type(obj.to_dict()['updated_at']), datetime)
-        self.assertTrue(hasattr(obj.to_dict(), '__class__'))
+        self.assertTrue(hasattr(obj, 'email'))
+        self.assertTrue(hasattr(obj, 'password'))
+        self.assertTrue(hasattr(obj, 'first_name'))
+        self.assertTrue(hasattr(obj, 'last_name'))
+        self.assertTrue(hasattr(obj, '__class__'))
         self.assertTrue(obj.to_dict()['__class__'] == 'User')
         self.assertIsInstance(obj, BaseModel)
         self.assertIsInstance(obj, User)
