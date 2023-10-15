@@ -41,7 +41,11 @@ class TestCity(unittest.TestCase):
         """
         obj = City()
 
+        self.assertTrue(obj.state_id == "")
+        self.assertTrue(obj.name == "")
         self.assertTrue(type(obj.id), str)
+        self.assertTrue(type(obj.state_id), str)
+        self.assertTrue(type(obj.name), str)
         self.assertTrue(type(obj.__class__), str)
         self.assertTrue(type(obj.updated_at), datetime)
         self.assertTrue(type(obj.created_at), datetime)

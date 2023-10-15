@@ -41,6 +41,16 @@ class TestPlace(unittest.TestCase):
         """
         obj = Place()
 
+        self.assertTrue(obj.city_id == "")
+        self.assertTrue(obj.user_id == "")
+        self.assertTrue(obj.description == "")
+        self.assertTrue(obj.number_rooms == 0)
+        self.assertTrue(obj.number_bathrooms == 0)
+        self.assertTrue(obj.max_guest == 0)
+        self.assertTrue(obj.price_by_night == 0)
+        self.assertTrue(obj.latitude == 0.0)
+        self.assertTrue(obj.longitude == 0.0)
+        self.assertTrue(obj.amenity_ids == [])
         self.assertTrue(type(obj.id), str)
         self.assertTrue(type(obj.__class__), str)
         self.assertTrue(type(obj.updated_at), datetime)

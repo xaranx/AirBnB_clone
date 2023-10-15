@@ -41,6 +41,8 @@ class TestAmenity(unittest.TestCase):
         """
         obj = Amenity()
 
+        self.assertTrue(obj.name == "")
+        self.assertTrue(type(obj.name), str)
         self.assertTrue(type(obj.id), str)
         self.assertTrue(type(obj.__class__), str)
         self.assertTrue(type(obj.updated_at), datetime)

@@ -41,6 +41,9 @@ class TestReview(unittest.TestCase):
         """
         obj = Review()
 
+        self.assertTrue(obj.place_id == "")
+        self.assertTrue(obj.user_id == "")
+        self.assertTrue(obj.text == "")
         self.assertTrue(type(obj.id), str)
         self.assertTrue(type(obj.__class__), str)
         self.assertTrue(type(obj.updated_at), datetime)
