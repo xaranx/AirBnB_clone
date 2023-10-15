@@ -185,6 +185,8 @@ class HBNBCommand(cmd.Cmd):
             if key in available_instances.keys():
                 if '"' not in args[3]:
                     args[3] = int(args[3])
+                else:
+                    args[3] = args[3].strip('"')
                 setattr(available_instances[key], args[2], args[3])
                 storage.save()
 
