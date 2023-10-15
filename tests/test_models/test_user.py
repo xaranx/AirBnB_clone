@@ -41,6 +41,11 @@ class TestUser(unittest.TestCase):
         """
         obj = User()
 
+        obj.email = "airbnb@mail.com"
+        obj.password = "root"
+        obj.first_name = "Hatim"
+        obj.last_name = "Selmun"
+
         self.assertTrue(type(obj.email), str)
         self.assertTrue(type(obj.first_name), str)
         self.assertTrue(type(obj.password), str)
