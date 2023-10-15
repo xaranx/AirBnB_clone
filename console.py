@@ -251,14 +251,10 @@ class HBNBCommand(cmd.Cmd):
                             p0, p1, p2 = prms[0], prms[1], prms[2]
                             return "{} {} {} {} {}"\
                                 .format(cmd[0], args[0], p0, p1, p2[:-1])
-                        elif len(prms) == 2:
-                            if type(prms[1] == dict):
-                                for k, v in prms[1].items():
-                                    return "{} {} {} {} {}"\
-                                        .format(cmd[0], args[0], prms[0], k, v)
 
                         else:
                             return line
+
                     elif cmd[0] in HBNBCommand.commands_with_id:
                         for command in HBNBCommand.commands_with_id:
                             if cmd[0] == command:
