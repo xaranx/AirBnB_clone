@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-INIT
+Init file
 """
 from models.engine.file_storage import FileStorage
 

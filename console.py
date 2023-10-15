@@ -247,7 +247,7 @@ class HBNBCommand(cmd.Cmd):
                     cmd = args[1].split('(')
                     if cmd[0] == 'update':
                         params = cmd[1].split(', ')
-                        prms = list(map(lambda x: x.strip('")'), params))
+                        prms = list(map(lambda x: x.strip(')'), params))
                         return "{} {} {} {} {}"\
                             .format(cmd[0], args[0], prms[0], prms[1], prms[2])
                     elif cmd[0] in HBNBCommand.commands_with_id:
