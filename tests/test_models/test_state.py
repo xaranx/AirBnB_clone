@@ -21,6 +21,7 @@ class TestState(unittest.TestCase):
 
         self.assertIsInstance(obj, BaseModel)
         self.assertTrue(type(obj), State)
+        self.assertTrue(obj.name == "")
         self.assertTrue(type(obj.id), str)
         self.assertTrue(hasattr(obj, 'id'))
         self.assertTrue(hasattr(obj, 'created_at'))
@@ -42,6 +43,7 @@ class TestState(unittest.TestCase):
         obj = State()
 
         self.assertTrue(type(obj.id), str)
+        self.assertTrue(type(obj.name), str)
         self.assertTrue(type(obj.__class__), str)
         self.assertTrue(type(obj.updated_at), datetime)
         self.assertTrue(type(obj.created_at), datetime)
@@ -71,6 +73,7 @@ class TestState(unittest.TestCase):
         Testing State.to_dict() method
         """
         obj = State()
+        obj.name = "Hatim"
 
         self.assertFalse(obj.__dict__ == obj.to_dict())
         self.assertTrue(type(obj.to_dict()), dict)
@@ -78,6 +81,7 @@ class TestState(unittest.TestCase):
         self.assertTrue(type(obj.to_dict()['updated_at']), datetime)
         self.assertTrue(hasattr(obj.to_dict(), '__class__'))
         self.assertTrue(obj.to_dict()['__class__'] == 'State')
+        self.assertTrue(obj.name == "Hatim")
         self.assertIsInstance(obj, BaseModel)
         self.assertIsInstance(obj, State)
 
