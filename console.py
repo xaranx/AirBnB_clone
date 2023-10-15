@@ -172,7 +172,7 @@ class HBNBCommand(cmd.Cmd):
         or updating attribute (save the change into the JSON file).
         """
         args = line.split()
-        args = list(map(lambda x: x.strip('"'), args))
+        # args = list(map(lambda x: x.strip('"'), args))
 
         available_instances = storage.all()
         if len(args) >= 4:
@@ -180,8 +180,11 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
                 return
 
+            args[:-1] = list(map(lambda x: x.strip('"'), args[:-1]))
             key = '{}.{}'.format(args[0], args[1])
             if key in available_instances.keys():
+                if '"' not in args[3]:
+                    args[3] = int(args[3])
                 setattr(available_instances[key], args[2], args[3])
                 storage.save()
 
