@@ -41,11 +41,6 @@ class TestUser(unittest.TestCase):
         """
         obj = User()
 
-        obj.email = "airbnb@mail.com"
-        obj.password = "root"
-        obj.first_name = "Hatim"
-        obj.last_name = "Selmun"
-
         self.assertTrue(type(obj.email), str)
         self.assertTrue(type(obj.first_name), str)
         self.assertTrue(type(obj.password), str)
@@ -80,10 +75,6 @@ class TestUser(unittest.TestCase):
         Testing user.to_dict() method
         """
         obj = User()
-        obj.email = "airBnB@mail.com"
-        obj.first_name = "Betty"
-        obj.last_name = "Holberton"
-        obj.password = "root"
 
         self.assertFalse(obj.__dict__ == obj.to_dict())
         self.assertTrue(type(obj.to_dict()), dict)
