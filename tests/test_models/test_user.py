@@ -41,6 +41,10 @@ class TestUser(unittest.TestCase):
         """
         obj = User()
 
+        self.assertTrue(type(obj.email), str)
+        self.assertTrue(type(obj.first_name), str)
+        self.assertTrue(type(obj.password), str)
+        self.assertTrue(type(obj.last_name), str)
         self.assertTrue(type(obj.id), str)
         self.assertTrue(type(obj.__class__), str)
         self.assertTrue(type(obj.updated_at), datetime)
