@@ -88,6 +88,10 @@ class TestUser(unittest.TestCase):
         self.assertTrue(obj.to_dict()['__class__'] == 'User')
         self.assertIsInstance(obj, BaseModel)
         self.assertIsInstance(obj, User)
+        self.assertTrue(obj.email == "")
+        self.assertTrue(obj.password == "")
+        self.assertTrue(obj.first_name == "")
+        self.assertTrue(obj.last_name == "")
 
 
 if __name__ == "__main__":
